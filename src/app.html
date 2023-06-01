@@ -10,11 +10,11 @@
 		<div style="display: contents">%sveltekit.body%</div>
 		<script>
 			if (typeof global === 'undefined') {
-				var global = window;
+				window.global = window;
 			}
 	
 			if (typeof process === 'undefined') {
-				var process = { env: { NODE_ENV: 'production' } };
+				window.process = { env: { NODE_ENV: 'production' } };
 			}
 		</script>
 	</body>

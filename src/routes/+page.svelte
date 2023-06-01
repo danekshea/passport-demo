@@ -1,16 +1,25 @@
 <script lang="ts">
-    import { Buffer } from 'buffer';
+    import type { IMXProvider } from "@imtbl/sdk";
     import { login } from "../auth";
     import { passportStore, providerStore } from "../store";
-	import { get } from 'svelte/store';
 
-    if (typeof window !== 'undefined') {
-        window.global = window;
-        window.Buffer = Buffer;
+    type UserInformation = {
+        address: string
     }
 
-    let loggedIn:boolean = false;
+    let user: UserInformation | undefined;
+
+    const setUserInformation = async (provider: IMXProvider | null) => {
+        if(provider === null) return user = undefined
+
+        return user = {
+            address: await provider.getAddress()
+        }
+    }
+
+    $: setUserInformation($providerStore)
 </script>
+
 {#if $passportStore}
     <span>
         <button on:click={login}>Connect Passport</button>
@@ -18,9 +27,10 @@
 {:else}
     <h2>Passport does not exist</h2>
 {/if}
+
 <div class="container">
-    {#if loggedIn}
-        <h2>Logged in</h2>
+    {#if user}
+        <h2>Logged in as {user.address}</h2>
     {:else}
         <h2>Not logged in</h2>
     {/if}

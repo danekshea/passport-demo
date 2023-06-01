@@ -1,17 +1,16 @@
-import type { IMXProvider } from "@imtbl/sdk";
 import { providerStore, passportStore } from "./store";
 import { get } from "svelte/store";
 
 export async function login(): Promise<void> {
     const passport = get(passportStore);
-    console.log(passport);
     let provider = await passport.connectImxSilent();
-    if(!provider) {
+    console.log("provider after silent connect", provider)
+    if (!provider) {
         provider = await passport.connectImx();
+        console.log("provider after popup connect", provider);
     }
-    console.log(provider);
     providerStore.set(provider);
-  }
+}
 
 export async function handleLoginCallback(): Promise<void> {
     try {
@@ -20,6 +19,6 @@ export async function handleLoginCallback(): Promise<void> {
         await passport.loginCallback();
     }
     catch (err) {
-        console.error(err);
+        console.error("login callback error", err);
     }
 }

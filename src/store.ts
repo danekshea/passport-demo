@@ -12,14 +12,7 @@ const passportConfig = {
 	scope: 'openid offline_access email transact'
 };
 
-let passport;
-if (typeof window !== 'undefined') {
-	console.log('Window is defined, initializing Passport...');
-	passport = new Passport(passportConfig);
-	console.log('Passport has been initialized:', passport);
-} else {
-	console.log('Window is undefined, skipping Passport initialization.');
-}
+const passport = typeof window !== 'undefined' ? new Passport(passportConfig) : undefined
 
 export const providerStore = writable<IMXProvider | null>(null);
 export const passportStore = writable<Passport>(passport);

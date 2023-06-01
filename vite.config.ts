@@ -1,12 +1,16 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import process from 'process'
-import { builtinModules } from 'module'
+import { nodePolyfills } from "vite-plugin-node-polyfills"
 
 export default defineConfig({
   server: {
-	port: 8080
+    host: "127.0.0.1",
+    port: 8080
   },
-  plugins: [sveltekit()],
+  plugins: [
+    nodePolyfills({
+      protocolImports: true
+    }),
+    sveltekit()
+  ],
 })
-
