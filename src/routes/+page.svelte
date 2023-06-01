@@ -1,30 +1,27 @@
 <script lang="ts">
-    import { Environment, Passport, ImmutableConfiguration } from "@imtbl/sdk";
-    import { onMount } from 'svelte';
     import { Buffer } from 'buffer';
+    import { login } from "../auth";
+    import { passportStore, providerStore } from "../store";
+	import { get } from 'svelte/store';
 
     if (typeof window !== 'undefined') {
         window.global = window;
         window.Buffer = Buffer;
     }
 
-    let passport: Passport;
-
-    const passportConfig = {
-        clientId: "O5XZ085OlEurDuungFcIffMY5A9JwIry",
-        redirectUri: "http://127.0.0.1:5173/login",
-        logoutRedirectUri: "http://127.0.0.1:5173",
-        scope: "transact openid offline_access email",
-        audience: "platform_api",
-        baseConfig: new ImmutableConfiguration({
-        environment: Environment.SANDBOX, // Set the appropriate environment value
-        apiKey: "", // Provide the apiKey if required
-        }),
-    };
-
-    onMount(() => {
-        passport = new Passport(passportConfig);
-    });
+    let loggedIn:boolean = false;
 </script>
-<h1>Passport demo</h1>
-<button on:click={passport.connectImx}>Connect Passport</button>
+{#if $passportStore}
+    <span>
+        <button on:click={login}>Connect Passport</button>
+    </span>
+{:else}
+    <h2>Passport does not exist</h2>
+{/if}
+<div class="container">
+    {#if loggedIn}
+        <h2>Logged in</h2>
+    {:else}
+        <h2>Not logged in</h2>
+    {/if}
+</div>
