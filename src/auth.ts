@@ -1,5 +1,6 @@
 import { providerStore, passportStore } from "./store";
 import { get } from "svelte/store";
+import type { UnsignedTransferRequest, ETHAmount } from "@imtbl/core-sdk";
 
 export async function login(): Promise<void> {
     const passport = get(passportStore);
