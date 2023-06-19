@@ -217,7 +217,7 @@
 	{:else}
 		<h2>Loading...</h2>
 	{/if}
-	<div class="mx-auto w-full md:w-3/4 lg:w-2/3 xl:w-2/3">
+	<div class="mx-auto w-full md:w-3/4 lg:w-2/3 xl:w-2/3 max-w-[950px]">
 		{#if getAddress}
 			<Accordion>
 				<AccordionItem
