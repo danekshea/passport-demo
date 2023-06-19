@@ -19,8 +19,9 @@
     let depositResult = '';
     let withdrawalAmt = '';
     let withdrawalResult = '';
-    let registerOffChainReuslt = '';
+    let registerOffChainResult = '';
     let batchResult = '';
+    let IDToken = '';
 
     let batchTokenNumber1 = '';
     let batchTokenNumber2 = '';
@@ -60,13 +61,13 @@
         if(provider !== null) {
             try {
                 const result = await provider?.registerOffchain();
-                registerOffChainReuslt = JSON.stringify(result);
+                registerOffChainResult = JSON.stringify(result);
             }
             catch (e) {
                 if (e instanceof Error) {
-                        registerOffChainReuslt = e.message;
+                        registerOffChainResult = e.message;
                     } else {
-                        registerOffChainReuslt = 'An error occurred';
+                        registerOffChainResult = 'An error occurred';
                     }
             }
         }
@@ -75,6 +76,23 @@
     $: setAddressInformation($providerStore)
     $: updateOnChainStatus($providerStore)
     $: registerOffChainresult($providerStore)
+    $: getIDtoken()
+
+    const getIDtoken = async() => {
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      if (key && key.startsWith("oidc.user:https://auth.immutable.com")) {
+        const fullData = sessionStorage.getItem(key);
+        if (fullData) {
+          const parsedData = JSON.parse(fullData);
+          IDToken = JSON.stringify(parsedData.profile, null, 2);
+        }
+        else {
+            IDToken = '';
+        }
+      }
+    }   
+    }
 
     async function transfer(): Promise<void> {
         const provider = get(providerStore);
@@ -192,19 +210,26 @@
 
 <main class="flex flex-col justify-center items-center min-h-screen space-y-4">
     {#if $passportStore}
-        <Button on:click={login}><PassportLogo/>Connect Passport</Button>
+        <Button on:click={login} class="button"><PassportLogo/>Connect Passport</Button>
     {:else}
         <h2>Loading...</h2>
     {/if}
-    <div class="w-full md:w-3/4 lg:w-1/2 xl:w-1/5 mx-auto">
+    <div class="w-full md:w-3/4 lg:w-1/2 xl:w-1/3 mx-auto">
     {#if getAddress}
+        
         <Accordion>
             <AccordionItem>
-                <h3 slot="header">getAddress()</h3>
+                <h3 slot="header" class="text-immutable-near-black">ID Token</h3>
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                    {@html `<pre><code>${IDToken}</code></pre>`}
+                </p>
+            </AccordionItem>
+            <AccordionItem>
+                <h3 slot="header" class="text-immutable-near-black">getAddress()</h3>
                 <p class="mb-2 text-gray-500 dark:text-gray-400">{getAddress}</p>
             </AccordionItem>
             <AccordionItem>
-                <h3 slot="header">transfer()</h3>
+                <h3 slot="header" class="text-immutable-near-black">transfer()</h3>
                 <fieldset>
                     <Label for="amount" class="mb-2">Amount</Label>
                     <Input type="number" id="amount" bind:value={amount} required  />
@@ -214,7 +239,7 @@
                 </fieldset>
             </AccordionItem>
             <AccordionItem>
-                <h3 slot="header">createOrder()</h3>
+                <h3 slot="header" class="text-immutable-near-black">createOrder()</h3>
                 <fieldset>
                     <Label for="tokenAddress" class="mb-2">Token Address</Label>
                     <Input type="text" id="tokenAddress" bind:value={collectionAddress} required />
@@ -227,7 +252,7 @@
             </AccordionItem>
 
             <AccordionItem>
-                <h3 slot="header">cancelOrder()</h3>
+                <h3 slot="header" class="text-immutable-near-black">cancelOrder()</h3>
                 <fieldset>
                     <Label for="cancelOrderId" class="mb-2">Order ID</Label>
                     <Input type="number" id="cancelOrderId" bind:value={cancelOrderId} required />
@@ -236,16 +261,16 @@
             </AccordionItem>
 
             <AccordionItem>
-                <h3 slot="header">createTrade()</h3>
+                <h3 slot="header" class="text-immutable-near-black">createTrade()</h3>
                 <fieldset>
-                    <Label for="tradeOrderId" class="mb-2">Order ID</Label>
+                    <Label for="tradeOrderId" class="text-immutable-white">Order ID</Label>
                     <Input type="number" id="tradeOrderId" bind:value={tradeOrderId} required />
                     <Button type="submit" on:click={createTrade}>Create Trade</Button>
                 </fieldset>
             </AccordionItem>
 
             <AccordionItem>
-                <h3 slot="header">batchNftTransfer()</h3>
+                <h3 slot="header" class="text-immutable-near-black">batchNftTransfer()</h3>
                 <fieldset>
                     <Label for="receiver1" class="mb-2">Receiver 1</Label>
                     <Input type="text" id="batchReceiver1" bind:value={batchReceiver1} required />
@@ -267,17 +292,17 @@
                 </fieldset>
             </AccordionItem>
 
-            <AccordionItem class="bg-red-100">
+            <AccordionItem class="bg-red-100 text-immutable-near-black" >
                 <h3 slot="header">isRegisteredOnChain() - Operation not supported</h3>
                 <p class="mb-2 text-gray-500 dark:text-gray-400">{isRegisteredOnChain}</p>
             </AccordionItem>
 
-            <AccordionItem class="bg-red-100">
+            <AccordionItem class="bg-red-100 text-immutable-near-black">
                 <h3 slot="header">registerOffchain() - Operation not supported</h3>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">{registerOffChainReuslt}</p>
+                <p class="mb-2 text-gray-500 dark:text-gray-400">{registerOffChainResult}</p>
             </AccordionItem>
 
-            <AccordionItem class="bg-red-100">
+            <AccordionItem class="bg-red-100 text-immutable-near-black">
                 <h3 slot="header">deposit() - Operation not supported</h3>
                 <fieldset>
                     <Label for="depositAmt" class="mb-2">Amount</Label>
@@ -289,7 +314,7 @@
                 </fieldset>
             </AccordionItem>
 
-            <AccordionItem class="bg-red-100">
+            <AccordionItem class="bg-red-100 text-immutable-near-black">
                 <h3 slot="header">prepareWithdrawal() - Operation not supported</h3>
                 <fieldset>
                     <Label for="withdrawalAmt" class="mb-2">Amount</Label>
@@ -304,6 +329,25 @@
     {/if}
 </div>
 </main>
+
+
+<style>
+    :global(.button) {
+        color: #0d0d0d;
+        background-image: linear-gradient(137deg, #f191fa, #83e3f0);
+        min-width: 140px;
+        background-color: #0d0d0d;
+        border: 1px #0d0d0d;
+        border-radius: 48px;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 12px 24px;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+    }
+    </style>
 
 
 
