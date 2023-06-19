@@ -32,7 +32,8 @@ const config = {
 			'white': '#ffffff',
 			'light-grey': '#e0e0e0',
 			'light-blue': '#36e0f8',
-			'teal': '#1f8290'
+			'teal': '#1f8290',
+			'pink': '#178a99'
 		  },
   
 		  // pink
