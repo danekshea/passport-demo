@@ -213,7 +213,7 @@
 
 <main class="flex min-h-screen flex-col items-center justify-center space-y-4 text-white">
 	{#if $passportStore}
-		<Button on:click={login} class="connectbutton"><PassportLogo />Connect Passport</Button>
+		<Button on:click={login} class="connectbutton largerText"><PassportLogo />Connect Passport</Button>
 	{:else}
 		<h2>Loading...</h2>
 	{/if}
@@ -354,10 +354,14 @@
 		border-radius: 48px;
 		margin-left: 0;
 		margin-right: 0;
-		padding: 12px 24px;
-		font-weight: 600;
+		padding: 6px 12px;
+		font-weight: 500;
 		text-decoration: none;
 		display: flex;
 		align-items: center;
 	}
+	:global(.largerText) {
+		font-size: 20px; /* Adjust the size as per your requirement */
+	}
+
 </style>
