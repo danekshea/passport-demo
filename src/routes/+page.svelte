@@ -354,8 +354,8 @@
 		border-radius: 48px;
 		margin-left: 0;
 		margin-right: 0;
-		padding: 9px 18px;
-		font-weight: 500;
+		padding: 8px 16px;
+		font-weight: 400;
 		text-decoration: none;
 		display: flex;
 		align-items: center;
