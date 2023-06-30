@@ -343,9 +343,9 @@
 		{/if}
 	</div>
 	<!-- GitHub logo with a link -->
-	<div class="absolute bottom-4">
+	<div class="github-logo">
 		<a href="https://github.com/danekshea/passport-demo" target="_blank">
-		  <img src="/github.png" alt="GitHub logo" width="32" height="32">
+		  <img src="/github.png" alt="GitHub logo">
 		</a>
 	  </div>
 </main>
@@ -369,5 +369,16 @@
 	:global(.largerText) {
 		font-size: 20px; /* Adjust the size as per your requirement */
 	}
+
+	.github-logo {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+	padding: 15px;
+  }
+  .github-logo img {
+	width: 40px;
+	height: 40px;
+  }
 
 </style>
