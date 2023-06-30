@@ -344,7 +344,7 @@
 	</div>
 	<!-- GitHub logo with a link -->
 	<div class="absolute bottom-4">
-		<a href="https://github.com/danekshea/passport-demo">
+		<a href="https://github.com/danekshea/passport-demo" target="_blank">
 		  <img src="/github.png" alt="GitHub logo" width="32" height="32">
 		</a>
 	  </div>
