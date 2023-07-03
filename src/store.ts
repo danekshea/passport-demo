@@ -16,3 +16,4 @@ const passport = typeof window !== 'undefined' ? new Passport(passportConfig) : 
 
 export const providerStore = writable<IMXProvider | null>(null);
 export const passportStore = writable<Passport>(passport);
+export const buttonState = writable<string>("Connect Passport");
