@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { IMXProvider } from '@imtbl/sdk';
-	import { login } from '../auth';
-	import { passportStore, providerStore } from '../store';
+	import { login, logout } from '../auth';
+	import { passportStore, providerStore, buttonState } from '../store';
 	import type {
 		UnsignedOrderRequest,
 		UnsignedTransferRequest,
@@ -213,7 +213,11 @@
 
 <main class="flex min-h-screen flex-col items-center justify-center space-y-4 text-white">
 	{#if $passportStore}
-		<Button on:click={login} class="connectbutton largerText"><PassportLogo />Connect Passport</Button>
+		{#if getAddress}
+			<Button on:click={logout} class="connectbutton largerText"><PassportLogo />Logout</Button>
+		{:else}
+			<Button on:click={login} class="connectbutton largerText"><PassportLogo />{$buttonState}</Button>
+		{/if}
 	{:else}
 		<h2>Loading...</h2>
 	{/if}
@@ -360,7 +364,7 @@
 		border-radius: 48px;
 		margin-left: 0;
 		margin-right: 0;
-		padding: 8px 16px;
+		padding: 8px 20px 8px 16px;
 		font-weight: 400;
 		text-decoration: none;
 		display: flex;
