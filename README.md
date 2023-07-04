@@ -2,7 +2,7 @@
 SvelteKit example using Immutable Passport that shows all of the available method calls and responses. Used for development and troubleshooting.
 
 ## Usage
-Change `store.ts` to use your own ClientID and IP address after creating Passport credentials at https://hub.immutable.com/.
+Rename .env.example to .env and populate with the Passport credentials at https://hub.immutable.com/.
 
 ## Developing
 
