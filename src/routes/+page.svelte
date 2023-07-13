@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IMXProvider } from '@imtbl/sdk';
+	import { PassportError, type IMXProvider } from '@imtbl/sdk';
 	import { login, logout } from '../auth';
 	import { passportStore, providerStore, buttonState } from '../store';
 	import type {
@@ -12,7 +12,7 @@
 		GetSignableTradeRequest
 	} from '@imtbl/core-sdk';
 	import { get } from 'svelte/store';
-	import { AccordionItem, Accordion, Input, Label, Helper, Button, Hr } from 'flowbite-svelte';
+	import { AccordionItem, Accordion, Input, Label, Helper, Button, Hr, Spinner } from 'flowbite-svelte';
 	import PassportLogo from '../comps/PassportLogo.svelte';
 
 	let amount = '';
@@ -84,6 +84,8 @@
 
 	const getIDtoken = async (provider: IMXProvider | null) => {
 		if (provider !== null) {
+			const passport = get(passportStore);
+			console.log(passport.getIdToken());
 			for (let i = 0; i < sessionStorage.length; i++) {
 				const key = sessionStorage.key(i);
 				if (key && key.startsWith('oidc.user:https://auth.immutable.com')) {
@@ -98,6 +100,7 @@
 			}
 		}
 	};
+
 
 	async function transfer(): Promise<void> {
 		const provider = get(providerStore);
@@ -215,6 +218,8 @@
 	{#if $passportStore}
 		{#if getAddress}
 			<Button on:click={logout} class="connectbutton largerText"><PassportLogo />Logout</Button>
+		{:else if $buttonState === 'Connecting...'}
+			<Button class="connectbutton largerText"><div class="spinner-container"><Spinner size={"6"} color="purple" /></div>{$buttonState}</Button>
 		{:else}
 			<Button on:click={login} class="connectbutton largerText"><PassportLogo />{$buttonState}</Button>
 		{/if}
@@ -359,6 +364,7 @@
 		color: #0d0d0d;
 		background-image: linear-gradient(137deg, #f191fa, #83e3f0);
 		min-width: 140px;
+		height: 48px;
 		background-color: #0d0d0d;
 		border: 0px #0d0d0d;
 		border-radius: 48px;
@@ -373,7 +379,6 @@
 	:global(.largerText) {
 		font-size: 20px; /* Adjust the size as per your requirement */
 	}
-
 	.github-logo {
     position: fixed;
     bottom: 0;
@@ -383,6 +388,9 @@
   .github-logo img {
 	width: 40px;
 	height: 40px;
+  }
+  .spinner-container {
+	padding: 5px;
   }
 
 </style>
