@@ -219,7 +219,7 @@
 		{#if getAddress}
 			<Button on:click={logout} class="connectbutton largerText"><PassportLogo />Logout</Button>
 		{:else if $buttonState === 'Connecting...'}
-			<Button class="connectbutton largerText"><div class="spinner-container"><Spinner size={"6"} color="purple" /></div>{$buttonState}</Button>
+			<Button class="connectbutton largerText"><div class="spinner-container"><Spinner size={"6"} color="white" /></div>{$buttonState}</Button>
 		{:else}
 			<Button on:click={login} class="connectbutton largerText"><PassportLogo />{$buttonState}</Button>
 		{/if}
