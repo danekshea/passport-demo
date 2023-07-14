@@ -8,8 +8,19 @@ export async function login(): Promise<void> {
     let provider = await passport.connectImxSilent();
     console.log("provider after silent connect", provider)
     if (!provider) {
-        provider = await passport.connectImx();
-        console.log("provider after popup connect", provider);
+        try {
+            provider = await passport.connectImx();
+            console.log('provider after popup connect', provider);
+        } catch (err) {
+            // Error handling for user closing the popup
+            if (err.message === 'AUTHENTICATION_ERROR: Popup closed by user') {
+                buttonState.update(() => 'Connect');
+                return;
+            } else {
+                console.log(err);
+                throw err; // re-throw error to handle it in the outer catch block
+            }
+        }
     }
     providerStore.set(provider);
     buttonState.update(() => "Connected");
