@@ -1,6 +1,5 @@
 import { providerStore, passportStore, buttonState } from "./store";
 import { get } from "svelte/store";
-import type { UnsignedTransferRequest, ETHAmount } from "@imtbl/core-sdk";
 
 export async function login(): Promise<void> {
     buttonState.update(() => "Connecting...");
@@ -11,7 +10,7 @@ export async function login(): Promise<void> {
         try {
             provider = await passport.connectImx();
             console.log('provider after popup connect', provider);
-        } catch (err) {
+        } catch (err:any) {
             // Error handling for user closing the popup
             if (err.message === 'AUTHENTICATION_ERROR: Popup closed by user') {
                 buttonState.update(() => 'Connect');

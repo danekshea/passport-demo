@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PassportError, type IMXProvider } from '@imtbl/sdk';
+	import { provider } from '@imtbl/sdk';
 	import { login, logout } from '../auth';
 	import { passportStore, providerStore, buttonState } from '../store';
 	import type {
@@ -42,13 +42,13 @@
 	let isRegisteredOnChain: string | undefined;
 	let getAddress: string | undefined;
 
-	const setAddressInformation = async (provider: IMXProvider | null) => {
+	const setAddressInformation = async (provider: provider.IMXProvider | null) => {
 		if (provider === null) return (getAddress = undefined);
 
 		return (getAddress = await provider.getAddress());
 	};
 
-	const updateOnChainStatus = async (provider: IMXProvider | null) => {
+	const updateOnChainStatus = async (provider: provider.IMXProvider | null) => {
 		if (provider !== null) {
 			try {
 				isRegisteredOnChain = (await provider.isRegisteredOnchain()) ? 'true' : 'false';
@@ -62,7 +62,7 @@
 		}
 	};
 
-	const registerOffChainresult = async (provider: IMXProvider | null) => {
+	const registerOffChainresult = async (provider: provider.IMXProvider | null) => {
 		if (provider !== null) {
 			try {
 				const result = await provider?.registerOffchain();
@@ -82,7 +82,7 @@
 	$: registerOffChainresult($providerStore);
 	$: getIDtoken($providerStore);
 
-	const getIDtoken = async (provider: IMXProvider | null) => {
+	const getIDtoken = async (provider: provider.IMXProvider | null) => {
 		if (provider !== null) {
 			const passport = get(passportStore);
 			console.log(passport.getIdToken());
