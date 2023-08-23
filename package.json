@@ -12,7 +12,6 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.1.0",
 		"@sveltejs/kit": "^1.22.6",
 		"@typescript-eslint/eslint-plugin": "^6.4.1",
 		"@typescript-eslint/parser": "^6.4.1",
@@ -39,6 +38,7 @@
 		"@imtbl/core-sdk": "^2.1.0",
 		"@imtbl/sdk": "^0.13.0",
 		"@magic-ext/oidc": "^2.3.0",
+		"@sveltejs/adapter-vercel": "^3.0.3",
 		"flowbite-svelte": "^0.44.4"
 	}
 }
