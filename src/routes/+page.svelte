@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { provider } from '@imtbl/sdk';
+	import type { provider } from '@imtbl/sdk';
 	import { login, logout } from '../auth';
 	import { passportStore, providerStore, buttonState } from '../store';
 	import type {
